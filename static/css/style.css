@@ -188,6 +188,66 @@ h1 {
     font-size: 12px;
 }
 
+/* Register Box */
+.register-box {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Form Groups */
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s;
+    font-family: inherit;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 12px;
+}
+
+/* Info Box */
+.info-box {
+    background: #f0f8ff;
+    border: 1px solid #1B5E7E;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.info-box h4 {
+    color: #1B5E7E;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.info-box ul {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.8;
+    margin-left: 20px;
+}
+
+.info-box li {
+    margin-bottom: 5px;
+}
+
 /* Dashboard Styles */
 .dashboard-header {
     text-align: center;
@@ -256,6 +316,25 @@ h1 {
     h1 {
         font-size: 20px;
     }
+    
+    .register-box, .dashboard-box {
+        padding: 25px 15px;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    h1 {
+        font-size: 20px;
+    }
+    
+    .logo img {
+        width: 100px;
+        height: 100px;
+    }
 }
 
 /* PWA Install Prompt */
@@ -274,4 +353,23 @@ h1 {
 
 .install-prompt.show {
     display: block;
+}
+
+/* Scrollbar styling */
+.register-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.register-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.register-box::-webkit-scrollbar-thumb {
+    background: #1B5E7E;
+    border-radius: 10px;
+}
+
+.register-box::-webkit-scrollbar-thumb:hover {
+    background: #2A7A9E;
 }

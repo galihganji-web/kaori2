@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengajuan Cuti - Kaori Coffee</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-box">
+            <div class="dashboard-header">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/kaori_logo.png') }}" alt="Kaori Coffee" style="width: 80px;">
+                </div>
+                <h2>Pengajuan Cuti</h2>
+                <div class="dashboard-info">
+                    <p>{{ user.nama }} | {{ user.jabatan }}</p>
+                </div>
+            </div>
+            
+            {% if error %}
+            <div class="alert alert-error">{{ error }}</div>
+            {% endif %}
+            
+            <form method="POST" action="{{ url_for('pengajuan_cuti') }}">
+                <div class="form-group">
+                    <label>Jenis Cuti *</label>
+                    <select name="jenis_cuti" required>
+                        <option value="">Pilih Jenis Cuti</option>
+                        <option value="Cuti Tahunan">Cuti Tahunan</option>
+                        <option value="Cuti Sakit">Cuti Sakit</option>
+                        <option value="Cuti Darurat">Cuti Darurat</option>
+                        <option value="Cuti Menikah">Cuti Menikah</option>
+                        <option value="Cuti Melahirkan">Cuti Melahirkan</option>
+                        <option value="Cuti Besar">Cuti Besar</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Tanggal Mulai *</label>
+                    <input type="date" name="start_date" id="start_date" required onchange="calculateDays()">
+                </div>
+                
+                <div class="form-group">
+                    <label>Tanggal Selesai *</label>
+                    <input type="date" name="end_date" id="end_date" required onchange="calculateDays()">
+                </div>
+                
+                <div class="form-group">
+                    <label>Jumlah Hari</label>
+                    <input type="number" name="jumlah_hari" id="jumlah_hari" readonly 
+                           style="background: #f5f5f5; cursor: not-allowed;">
+                </div>
+                
+                <div class="form-group">
+                    <label>Alasan Cuti *</label>
+                    <textarea name="alasan" rows="4" placeholder="Jelaskan alasan pengajuan cuti..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">AJUKAN CUTI</button>
+                
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary" style="margin-top: 10px;">KEMBALI</a>
+            </form>
+            
+            <div class="info-box" style="margin-top: 30px; padding: 15px; background: #f0f8ff; border-radius: 10px; border: 1px solid #1B5E7E;">
+                <h4 style="color: #1B5E7E; margin-bottom: 10px;">ℹ️ Informasi</h4>
+                <ul style="color: #666; font-size: 14px; line-height: 1.8; margin-left: 20px;">
+                    <li>Surat pengajuan cuti akan otomatis di-generate dalam format .docx</li>
+                    <li>File dapat langsung diunduh setelah submit</li>
+                    <li>Pastikan semua data terisi dengan benar</li>
+                    <li>Untuk cuti sakit, lampirkan surat dokter</li>
+                </ul>
+            </div>
+            
+            <div class="footer">
+                © 2025 Kaori Coffee
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('start_date').setAttribute('min', today);
+        document.getElementById('end_date').setAttribute('min', today);
+        
+        function calculateDays() {
+            const startDate = document.getElementById('start_date').value;
+            const endDate = document.getElementById('end_date').value;
+            
+            if (startDate && endDate) {
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                
+                if (end < start) {
+                    alert('Tanggal selesai tidak boleh lebih awal dari tanggal mulai!');
+                    document.getElementById('end_date').value = '';
+                    document.getElementById('jumlah_hari').value = '';
+                    return;
+                }
+                
+                // Calculate difference in days
+                const diffTime = Math.abs(end - start);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                
+                document.getElementById('jumlah_hari').value = diffDays;
+            }
+        }
+        
+        // Update end_date min when start_date changes
+        document.getElementById('start_date').addEventListener('change', function() {
+            document.getElementById('end_date').setAttribute('min', this.value);
+        });
+    </script>
+</body>
+</html>
