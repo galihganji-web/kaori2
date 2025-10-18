@@ -8,10 +8,20 @@ import os
 from main import fill_invitation
 
 app = Flask(__name__)
-app.secret_key = 'kaori_coffee_secret_key_2025_secure_random_string'
-app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # 1 jam
 
-# Decorator untuk cek login
+# Secret key dari environment variable (lebih aman)
+app.secret_key = os.environ.get('SECRET_KEY', 'kaori_coffee_secret_key_2025_secure_random_string')
+app.config['PERMANENT_SESSION_LIFETIME'] = 3600
+
+# Database path (support production)
+DB_PATH = os.environ.get('DATABASE_URL', 'pegawai.db')
+
+def get_db_connection():
+    """Helper untuk koneksi database"""
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -35,7 +45,6 @@ def login():
         if not username or not password:
             return render_template('login.html', error='Username dan password harus diisi!')
         
-        # Cek admin
         if username == 'admin' and password == 'password':
             session.permanent = True
             session['user_id'] = 'admin'
@@ -45,9 +54,8 @@ def login():
             session['outlet'] = 'HQ'
             return redirect(url_for('dashboard'))
         
-        # Cek database
         try:
-            conn = sqlite3.connect('pegawai.db')
+            conn = get_db_connection()
             cursor = conn.cursor()
             cursor.execute("""
                 SELECT id, nama_panjang, jabatan, outlet, password 
@@ -88,7 +96,7 @@ def register():
             return render_template('register.html', error='Password minimal 6 karakter!')
         
         try:
-            conn = sqlite3.connect('pegawai.db')
+            conn = get_db_connection()
             cursor = conn.cursor()
             
             cursor.execute("SELECT id FROM pegawai WHERE username = ?", (username,))
@@ -164,6 +172,25 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
+@app.route('/health')
+def health():
+    """Health check endpoint"""
+    return {'status': 'ok', 'message': 'Kaori Coffee System is running'}
+
 if __name__ == '__main__':
-    # Untuk production gunakan: gunicorn app:app
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.environ.get('PORT', 8080))
+    
+    # Development mode
+    if os.environ.get('FLASK_ENV') == 'development':
+        print("\n" + "="*60)
+        print("🚀 KAORI COFFEE SYSTEM - DEVELOPMENT MODE")
+        print("="*60)
+        print(f"\n📱 Akses aplikasi di:")
+        print(f"   - Lokal: http://localhost:{port}")
+        print(f"   - Network: http://[IP_ADDRESS]:{port}")
+        print("\n💡 Tips: Cari IP komputer dengan 'ifconfig' atau 'ipconfig'")
+        print("="*60 + "\n")
+        app.run(host='0.0.0.0', port=port, debug=True)
+    else:
+        # Production mode
+        app.run(host='0.0.0.0', port=port, debug=False)

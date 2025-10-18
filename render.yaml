@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: kaori-coffee
+    env: python
+    region: singapore  # Server terdekat dengan Indonesia
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.6
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_ENV
+        value: production
+    healthCheckPath: /health
