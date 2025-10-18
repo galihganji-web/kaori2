@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, send_file
+from flask import Flask, render_template, request, redirect, url_for, session, send_file
 import sqlite3
 import bcrypt
 from encryption import decrypt_data, encrypt_data
@@ -8,13 +8,11 @@ import os
 from main import fill_invitation
 
 app = Flask(__name__)
-
-# Secret key dari environment variable (lebih aman)
 app.secret_key = os.environ.get('SECRET_KEY', 'kaori_coffee_secret_key_2025_secure_random_string')
 app.config['PERMANENT_SESSION_LIFETIME'] = 3600
 
-# Database path (support production)
-DB_PATH = os.environ.get('DATABASE_URL', 'pegawai.db')
+# Database path
+DB_PATH = os.path.join(os.path.dirname(__file__), 'pegawai.db')
 
 def get_db_connection():
     """Helper untuk koneksi database"""
@@ -177,20 +175,9 @@ def health():
     """Health check endpoint"""
     return {'status': 'ok', 'message': 'Kaori Coffee System is running'}
 
+# For Vercel
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
-    
-    # Development mode
-    if os.environ.get('FLASK_ENV') == 'development':
-        print("\n" + "="*60)
-        print("🚀 KAORI COFFEE SYSTEM - DEVELOPMENT MODE")
-        print("="*60)
-        print(f"\n📱 Akses aplikasi di:")
-        print(f"   - Lokal: http://localhost:{port}")
-        print(f"   - Network: http://[IP_ADDRESS]:{port}")
-        print("\n💡 Tips: Cari IP komputer dengan 'ifconfig' atau 'ipconfig'")
-        print("="*60 + "\n")
-        app.run(host='0.0.0.0', port=port, debug=True)
-    else:
-        # Production mode
-        app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=False)
+
+# ✅ Production: https://kaori-coffee.vercel.app
