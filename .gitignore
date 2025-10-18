@@ -44,3 +44,4 @@ runtime.txt
 # Session files
 flask_session/
 .vercel
+secret.key
