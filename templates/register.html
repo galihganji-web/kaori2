@@ -33,38 +33,24 @@
             <form method="POST" action="{{ url_for('register') }}">
                 <div class="form-group">
                     <label>Nama Lengkap *</label>
-                    <input type="text" name="nama_panjang" placeholder="Masukkan nama lengkap" required>
+                    <input type="text" name="nama_panjang" placeholder="Masukkan Nama Lengkap" required>
                 </div>
                 
                 <div class="form-group">
                     <label>Jabatan *</label>
-                    <select name="jabatan" required>
-                        <option value="">Pilih Jabatan</option>
-                        <option value="Barista">Barista</option>
-                        <option value="Kasir">Kasir</option>
-                        <option value="Kitchen Staff">Kitchen Staff</option>
-                        <option value="Server">Server</option>
-                        <option value="Supervisor">Supervisor</option>
-                        <option value="Manager">Manager</option>
-                    </select>
+                    <input type="text" jabatan="jabatan" placeholder="Masukkan Jabatan" required>
                 </div>
                 
                 <div class="form-group">
                     <label>Outlet *</label>
                     <select name="outlet" required>
-                        <option value="">Pilih Outlet</option>
-                        <option value="Kaori Coffee - Sudirman">Kaori Coffee - Sudirman</option>
-                        <option value="Kaori Coffee - Senayan">Kaori Coffee - Senayan</option>
-                        <option value="Kaori Coffee - Menteng">Kaori Coffee - Menteng</option>
-                        <option value="Kaori Coffee - PIK">Kaori Coffee - PIK</option>
-                        <option value="Kaori Coffee - BSD">Kaori Coffee - BSD</option>
-                        <option value="HQ">HQ (Head Office)</option>
+                      <input type="text" outlet="lokasi_outlet" placeholder="Masukkan Lokasi Outlet" required>
                     </select>
                 </div>
                 
                 <div class="form-group">
                     <label>Username *</label>
-                    <input type="text" name="username" placeholder="Username untuk login" required>
+                    <input type="text" name="username" placeholder="Username Untuk Login" required>
                 </div>
                 
                 <div class="form-group">
