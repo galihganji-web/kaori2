@@ -26,15 +26,7 @@
             <form method="POST" action="{{ url_for('pengajuan_cuti') }}">
                 <div class="form-group">
                     <label>Jenis Cuti *</label>
-                    <select name="jenis_cuti" required>
-                        <option value="">Pilih Jenis Cuti</option>
-                        <option value="Cuti Tahunan">Cuti Tahunan</option>
-                        <option value="Cuti Sakit">Cuti Sakit</option>
-                        <option value="Cuti Darurat">Cuti Darurat</option>
-                        <option value="Cuti Menikah">Cuti Menikah</option>
-                        <option value="Cuti Melahirkan">Cuti Melahirkan</option>
-                        <option value="Cuti Besar">Cuti Besar</option>
-                    </select>
+                    <input name="jenis_cuti" required>
                 </div>
                 
                 <div class="form-group">
