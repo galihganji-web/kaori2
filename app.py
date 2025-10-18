@@ -8,7 +8,8 @@ import os
 from main import fill_invitation
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'kaori_coffee_secret_key_2025_secure_random_string')
+# Update secret key dari file secret.key
+app.secret_key = os.environ.get('SECRET_KEY', 'fXU4seCyGZ9VNqsscXI6rmbGwyN5HpZ9x_bJgN1JGWo=')
 app.config['PERMANENT_SESSION_LIFETIME'] = 3600
 
 # Database path
