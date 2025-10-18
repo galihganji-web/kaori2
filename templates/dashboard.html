@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Kaori Coffee</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-box">
+            <div class="dashboard-header">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/kaori_logo.png') }}" alt="Kaori Coffee" style="width: 80px;">
+                </div>
+                <h2>Selamat Datang, {{ user.nama }}!</h2>
+                <div class="dashboard-info">
+                    <p>{{ user.jabatan }} | {{ user.outlet }}</p>
+                </div>
+            </div>
+            
+            <div class="menu-grid">
+                <a href="{{ url_for('pengajuan_cuti') }}" class="menu-item">
+                    <div class="icon">📝</div>
+                    <h3>Pengajuan Cuti</h3>
+                    <p>Ajukan permohonan cuti</p>
+                </a>
+                
+                <div class="menu-item" onclick="showProfile()">
+                    <div class="icon">👤</div>
+                    <h3>Profile Saya</h3>
+                    <p>Lihat informasi akun</p>
+                </div>
+                
+                <a href="{{ url_for('logout') }}" class="menu-item" style="border-color: #c33; color: #c33;">
+                    <div class="icon">🚪</div>
+                    <h3>Logout</h3>
+                    <p>Keluar dari aplikasi</p>
+                </a>
+            </div>
+            
+            <div class="footer">
+                © 2025 Kaori Coffee
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showProfile() {
+            alert(`INFORMASI PROFILE\n\nID: {{ user.user_id }}\nNama: {{ user.nama }}\nJabatan: {{ user.jabatan }}\nOutlet: {{ user.outlet }}`);
+        }
+    </script>
+</body>
+</html>
